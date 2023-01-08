@@ -1,0 +1,72 @@
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-toast></p-toast>
+
+<p-dialog [(visible)]="display" [modal]="true" [draggable]="false" [resizable]="false">
+
+    <p-fieldset legend="Create New Post">
+
+        <div class="col-12 md:col-4">
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-minus"></i></span>
+                <input [ngClass]="{'ng-invalid ng-dirty': postValidationModel.titleIsValid == false}" type="text" [(ngModel)]="newPostModel.title" pInputText placeholder="Title">
+            </div>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-bars"></i></span>
+                <textarea pInputTextarea [ngClass]="{'ng-invalid ng-dirty': postValidationModel.bodyIsValid == false}" [(ngModel)]="newPostModel.body" placeholder="Body" [rows]="5" [cols]="30"></textarea>
+            </div>
+        </div>
+    </p-fieldset>
+    <ng-template pTemplate="footer">
+        <p-button (onClick)="createPost()" icon="pi pi-check" label="Save" styleClass="p-button-text p-button-success"></p-button>
+        <p-button (onClick)="hideDialog()" icon="pi pi-times" label="Cancel" styleClass="p-button-text p-button-danger"></p-button>
+    </ng-template>
+
+
+</p-dialog>
+
+
+<p-card header="Post List" [style]="{'min-width': '50rem', 'margin': '2em 2em 2em'}">
+
+    <p-toolbar>
+        <div class="p-toolbar-group-start">
+        </div>
+        <div class="p-toolbar-group-end">
+            <p-button (click)="showDialog()" label="New" icon="pi pi-plus"></p-button>
+        </div>
+    </p-toolbar>
+
+    <p-table [value]="postData.data" [scrollable]="true" scrollHeight="50rem" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-striped"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10,25,50]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:10%">#</th>
+                <th style="width:25%">TITLE</th>
+                <th style="width:25%">BODY</th>
+                <th style="width:20%">ACTIONS</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-i="rowIndex" let-postItem>
+            <tr>
+                <td>{{i+1}}</td>
+                <td>{{postItem.title}}</td>
+                <td>{{postItem.body}}</td>
+                <td>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                        <p-button [routerLink]="['/posts/' + postItem.id]" icon="pi pi-pencil" iconPos="left"
+                            styleClass="p-button-outlined p-button-rounded p-button-info"
+                            [style]="{'margin-left': '10px'}"></p-button>
+                        <p-button (onClick)="deleteItem(postItem.id)" icon="pi pi-trash" iconPos="right"
+                            styleClass="p-button-outlined p-button-rounded p-button-danger"
+                            [style]="{'margin-left': '10px'}"></p-button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+    </ng-template>
+
+</p-card>

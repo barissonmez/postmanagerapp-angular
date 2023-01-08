@@ -1,0 +1,22 @@
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-toast></p-toast>
+
+<p-card header="Post Detail" [style]="{'min-width': '50rem', 'margin': '2em 2em 2em'}">
+    <p-fieldset legend="Edit Post">
+        <div class="col-12 md:col-4">
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-minus"></i></span>
+                <input type="text" [(ngModel)]="postModel.title" [ngClass]="{'ng-invalid ng-dirty': postValidationModel.titleIsValid == false}" pInputText placeholder="Title">
+            </div>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-bars"></i></span>
+                <textarea [(ngModel)]="postModel.body" [ngClass]="{'ng-invalid ng-dirty': postValidationModel.bodyIsValid == false}" pInputTextarea placeholder="Body" [rows]="5" [cols]="30"></textarea>
+            </div>
+        </div>
+    </p-fieldset>
+    <ng-template pTemplate="footer">
+        <p-button  icon="pi pi-check" label="Save" (onClick)="updatePost()" styleClass="p-button-text p-button-success"></p-button>
+        <p-button icon="pi pi-times" label="Cancel" (onClick)="cancel()" styleClass="p-button-text p-button-danger"></p-button>
+    </ng-template>
+</p-card>
